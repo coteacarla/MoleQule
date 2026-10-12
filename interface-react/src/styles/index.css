@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+:root {
+  --color-primary-50: #e8f5e9;
+  --color-primary-100: #c8e6c9;
+  --color-primary-500: #4CAF50;
+  --color-primary-600: #43a047;
+  --color-primary-700: #388e3c;
+  --color-primary-900: #1b5e20;
+}
+
+body {
+  background-color: rgb(17 24 39);
+  color: rgb(243 244 246);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Custom component styles */
+.btn-primary {
+  background-color: var(--color-primary-500);
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--color-primary-600);
+}
+
+.btn-primary:disabled {
+  background-color: rgb(75 85 99);
+  cursor: not-allowed;
+}
+
+.input-field {
+  background-color: rgb(31 41 55);
+  border: 2px solid rgb(75 85 99);
+  color: rgb(243 244 246);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input-field:focus {
+  border-color: var(--color-primary-500);
+}
+
+.card {
+  background-color: rgb(31 41 55);
+  border: 2px solid rgb(55 65 81);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.card-hover {
+  background-color: rgb(31 41 55);
+  border: 2px solid rgb(55 65 81);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.card-hover:hover {
+  border-color: var(--color-primary-500);
+}
+
+/* Black scrollbar for select dropdowns */
+.basis-set-select {
+  scrollbar-width: thin;
+  scrollbar-color: #000000 rgb(31 41 55);
+}
+
+.basis-set-select::-webkit-scrollbar {
+  width: 12px;
+}
+
+.basis-set-select::-webkit-scrollbar-track {
+  background: rgb(31 41 55);
+}
+
+.basis-set-select::-webkit-scrollbar-thumb {
+  background-color: #000000;
+  border-radius: 6px;
+  border: 3px solid rgb(31 41 55);
+}

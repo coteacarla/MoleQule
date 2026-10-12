@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fix History Entries</title>
+</head>
+<body>
+    <h1>Fix Old History Entries</h1>
+    <button onclick="fixHistory()">Fix History</button>
+    <pre id="output"></pre>
+
+    <script>
+        function fixHistory() {
+            const output = document.getElementById('output');
+            
+            // Get the history from localStorage
+            const historyKey = 'quantum-chemistry-history';
+            const historyJson = localStorage.getItem(historyKey);
+            
+            if (!historyJson) {
+                output.textContent = 'No history found in localStorage';
+                return;
+            }
+            
+            const historyData = JSON.parse(historyJson);
+            const entries = historyData.state?.entries || [];
+            
+            output.textContent = `Found ${entries.length} entries\n\n`;
+            
+            // Check each entry to see if it has saved data
+            entries.forEach((entry, index) => {
+                const moleculeName = entry.name;
+                const basis = entry.basis;
+                
+                output.textContent += `Entry ${index + 1}: ${moleculeName} (${basis})\n`;
+                output.textContent += `  - scfCompleted: ${entry.scfCompleted}\n`;
+                output.textContent += `  - activeSpaceConfigured: ${entry.activeSpaceConfigured}\n`;
+                output.textContent += `  - integralsComputed: ${entry.integralsComputed}\n`;
+                output.textContent += `  - circuitBuilt: ${entry.circuitBuilt}\n`;
+                
+                // If active space is configured but integralsComputed is not set,
+                // check if there might be saved data (user needs to manually verify)
+                if (entry.activeSpaceConfigured && !entry.integralsComputed) {
+                    output.textContent += `  ⚠️  This entry might have saved integrals in storage!\n`;
+                    output.textContent += `     You can manually set integralsComputed to true if files exist.\n`;
+                }
+                
+                output.textContent += '\n';
+            });
+            
+            output.textContent += '\n=== TO FIX ===\n';
+            output.textContent += 'Open browser console and run:\n\n';
+            output.textContent += `
+const historyData = JSON.parse(localStorage.getItem('quantum-chemistry-history'));
+historyData.state.entries.forEach(entry => {
+    // For "Molecule 22:10:21" specifically
+    if (entry.name === 'Molecule 22:10:21' && entry.basis === '6-31g') {
+        entry.integralsComputed = true;
+        entry.circuitBuilt = false;
+        console.log('Fixed entry:', entry.name);
+    }
+});
+localStorage.setItem('quantum-chemistry-history', JSON.stringify(historyData));
+console.log('History updated! Refresh the page.');
+`;
+        }
+    </script>
+</body>
+</html>
